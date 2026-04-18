@@ -1,0 +1,26 @@
+.download-button{
+  display:inline-flex;
+  align-items:center;
+  gap:var(--spacing-sm);
+  padding:calc(var(--spacing-sm)) var(--spacing-md);
+  background:var(--color-primary-500);
+  color:var(--color-surface);
+  border:0;
+  border-radius:var(--radius-md);
+  font-size:var(--font-size-md);
+  font-weight:var(--font-weight-medium);
+  box-shadow:var(--shadow-sm);
+  cursor:pointer;
+  transition:background .12s ease,transform .08s ease;
+}
+.download-button:focus{
+  outline:2px solid var(--color-primary-300);
+  outline-offset:2px;
+}
+.download-button:hover{
+  background:var(--color-primary-600);
+  transform:translateY(-1px);
+}
+.download-button__icon{display:inline-flex;line-height:0}
+.download-button__label{display:inline-block}
+.download-button--secondary{background:var(--color-neutral-200);color:var(--color-text)}
