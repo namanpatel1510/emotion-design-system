@@ -4,18 +4,33 @@ import './download-button.css'
 interface Props {
   filename?: string
   onClick?: () => void
+  variant?: 'primary' | 'secondary' | 'ghost'
+  size?: 'sm' | 'md' | 'lg'
+  shape?: 'rounded' | 'pill' | 'square'
 }
 
-const DownloadButton: React.FC<Props> = ({ filename = 'file.pdf', onClick }) => {
+const DownloadButton: React.FC<Props> = ({
+  filename = 'file.pdf',
+  onClick,
+  variant = 'primary',
+  size = 'md',
+  shape = 'rounded',
+}) => {
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (onClick) onClick()
-    // Placeholder: actual download behavior should be provided by parent via `onClick`
   }
+
+  const className = [
+    'download-button',
+    `download-button--${variant}`,
+    `download-button--size-${size}`,
+    `download-button--shape-${shape}`,
+  ].join(' ')
 
   return (
     <button
       type="button"
-      className="download-button download-button--primary"
+      className={className}
       aria-label={`Download ${filename}`}
       onClick={handleClick}
     >

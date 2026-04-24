@@ -8,8 +8,10 @@ function App() {
   return (
     <main>
       <h1>Emotion Design System — Demo</h1>
-      <section>
+      <section className="download-button-row">
         <DownloadButton filename="example.pdf" />
+        <DownloadButton variant="secondary" size="lg" shape="pill" filename="report.xlsx" />
+        <DownloadButton variant="ghost" size="sm" shape="square" filename="notes.txt" />
       </section>
     </main>
   )
