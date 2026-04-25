@@ -26,9 +26,9 @@
 
 /* Checked state */
 .checkbox__input:checked + .checkbox__control{
-  background:var(--color-primary-600);
-  border-color:var(--color-primary-600);
-  color:var(--color-white);
+  background:var(--color-primary);
+  border-color:var(--color-primary);
+  color:var(--color-surface);
 }
 
 .checkbox__input:checked + .checkbox__control .checkbox__icon{display:block}
