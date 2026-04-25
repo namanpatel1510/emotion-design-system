@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import './App.css'
 import DownloadButton from './components/atoms/download-button/DownloadButton'
+import DashboardCard from './components/molecules/dashboard-card/DashboardCard'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -8,6 +9,14 @@ function App() {
   return (
     <main>
       <h1>Emotion Design System — Demo</h1>
+
+      <section className="cards-column">
+        <DashboardCard title="Total Earnings" metric="$187,118" badge="All time" />
+        <DashboardCard title="Active Users" metric="12,482" badge="This week" variant="compact">Monthly growth: 4.2%</DashboardCard>
+        <DashboardCard title="Conversion" metric="6.4%" badge="Current" variant="info">Conversion rate vs. last month</DashboardCard>
+        <DashboardCard title="Revenue (Preview)" metric="$9,421" badge="Live" variant="glass">Tap actions to download or explore</DashboardCard>
+      </section>
+
       <section className="download-button-row">
         <DownloadButton filename="example.pdf" />
         <DownloadButton variant="secondary" size="lg" shape="pill" filename="report.xlsx" />
