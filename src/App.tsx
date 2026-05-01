@@ -20,6 +20,8 @@ function App() {
     { id: 'T-1002', date: '2026-04-22', user: 'Chris.', amount: 25454.5, status: 'Pending' },
     { id: 'T-1003', date: '2026-04-21', user: 'Ben K.', amount: 40099.0, status: 'Completed' },
     { id: 'T-1004', date: '2026-04-23', user: 'Sharo.', amount: 1500.0, status: 'Refunded' },
+    { id: 'T-1005', date: '2026-04-24', user: 'Kimarah.', amount: 30100.0, status: 'Completed' },
+    { id: 'T-1006', date: '2026-04-25', user: 'Casey.', amount: 75000.0, status: 'Completed' },
   ]
 
   return (
