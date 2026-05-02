@@ -12,7 +12,6 @@ import LineChart from './components/organisms/charts/LineChart'
 import BarChart from './components/organisms/charts/BarChart'
 
 function App() {
-  const [count, setCount] = useState(0)
   const [isModalOpen, setIsModalOpen] = useState(false)
   // sample data for Recent Transactions
   const transactions = [

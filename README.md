@@ -40,6 +40,24 @@ npm run preview
 Deploy to GitHub Pages
 
 ```bash
+Install (if not already):
+
+```bash
+npm install --save-dev gh-pages
+```
+
+Publish (one of the following):
+
+Build then publish with gh-pages directly:
+
+```bash
+npm run build
+npx gh-pages -d dist
+```
+
+or use the bundled npm script:
+
+```bash
 npm run deploy
 ```
 

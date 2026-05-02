@@ -16,7 +16,7 @@ const DownloadButton: React.FC<Props> = ({
   size = 'md',
   shape = 'rounded',
 }) => {
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleClick = () => {
     if (onClick) onClick()
   }
 
