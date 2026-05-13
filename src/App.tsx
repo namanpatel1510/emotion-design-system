@@ -85,8 +85,10 @@ function App() {
         </section>
 
         <section style={{marginTop: 'var(--space-6)'}}>
-          <h2 style={{marginBottom: 'var(--space-3)'}}>Monthly Growth Comparison</h2>
           <BarChart
+            title="Monthly Growth"
+            subtitle="User growth rate by month · 2026"
+            badge="Jan – May 2026"
             data={[
               { label: 'Jan', value: 2.4 },
               { label: 'Feb', value: 1.8 },

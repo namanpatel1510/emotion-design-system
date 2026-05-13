@@ -1,2 +1,108 @@
-.eds-chart{width:100%;max-width:100%;background:transparent;border-radius:var(--radius-md)}
-.eds-chart svg{width:100%;height:auto;display:block}
+.eds-chart {
+  width: 100%;
+  max-width: 100%;
+  background: var(--color-white);
+  border: 1px solid var(--color-slate-200);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: var(--space-4);
+  transition: box-shadow var(--transition-slow), transform var(--transition-slow);
+  animation: fadeInUp 0.5s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+.eds-chart:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-3px);
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.eds-chart svg { width: 100%; height: auto; display: block; }
+
+/* ── BarChart header / summary ── */
+.eds-barchart__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-bottom: var(--space-3);
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--color-slate-100);
+}
+
+.eds-chart__title {
+  margin: 0;
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-slate-900);
+}
+
+.eds-chart__subtitle {
+  margin: var(--space-1) 0 0;
+  font-size: var(--font-size-xs);
+  color: var(--color-slate-500);
+}
+
+.eds-chart__badge {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  background: var(--color-primary-100);
+  color: var(--color-primary-700);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.eds-barchart__summary {
+  display: flex;
+  gap: var(--space-6);
+  margin-top: var(--space-2);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--color-slate-100);
+}
+
+.eds-barchart__stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.eds-barchart__stat-label {
+  font-size: var(--font-size-xs);
+  color: var(--color-slate-500);
+}
+
+.eds-barchart__stat-value {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-slate-800);
+}
+
+.eds-barchart__stat-value--peak {
+  color: var(--color-primary-600);
+}
+
+/* Animate bar fills drawing up */
+.eds-barchart__bar {
+  transform-origin: bottom;
+  animation: barGrow 0.55s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+@keyframes barGrow {
+  from { transform: scaleY(0); opacity: 0; }
+  to   { transform: scaleY(1); opacity: 1; }
+}
+
+/* Animate polyline drawing in */
+.eds-chart polyline {
+  stroke-dasharray: 2000;
+  stroke-dashoffset: 2000;
+  animation: lineDraw 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+@keyframes lineDraw {
+  to { stroke-dashoffset: 0; }
+}
