@@ -13,6 +13,8 @@ interface Props {
   disabled?: boolean
   size?: 'sm' | 'md' | 'lg'
   showValue?: boolean
+  /** Visual state: default | disabled | error */
+  state?: 'default' | 'disabled' | 'error'
 }
 
 const Slider: React.FC<Props> = ({
@@ -27,10 +29,13 @@ const Slider: React.FC<Props> = ({
   disabled = false,
   size = 'md',
   showValue = true,
+  state = 'default',
 }) => {
   const inputId = id ?? `slider-${Math.random().toString(36).slice(2, 9)}`
   const [internal, setInternal] = useState<number>(defaultValue ?? min)
   const current = typeof value === 'number' ? value : internal
+
+  const resolvedDisabled = state === 'disabled' || disabled
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const v = Number(e.target.value)
@@ -38,8 +43,14 @@ const Slider: React.FC<Props> = ({
     onChange && onChange(v)
   }
 
+  const classes = [
+    'slider',
+    `slider--size-${size}`,
+    state !== 'default' ? `slider--${state}` : '',
+  ].filter(Boolean).join(' ')
+
   return (
-    <div className={`slider slider--size-${size}`}>
+    <div className={classes}>
       {label && (
         <label className="slider__label" htmlFor={inputId}>{label}</label>
       )}
@@ -53,16 +64,22 @@ const Slider: React.FC<Props> = ({
           max={max}
           step={step}
           value={current}
-          defaultValue={defaultValue}
           onChange={handleChange}
-          disabled={disabled}
+          disabled={resolvedDisabled}
           aria-valuemin={min}
           aria-valuemax={max}
           aria-valuenow={current}
+          aria-invalid={state === 'error' ? 'true' : undefined}
         />
 
-        {showValue && <output className="slider__value">{current}</output>}
+        {showValue && (
+          <output className="slider__value">{current}</output>
+        )}
       </div>
+
+      {state === 'error' && (
+        <span className="slider__error-msg" role="alert">Value out of acceptable range</span>
+      )}
     </div>
   )
 }

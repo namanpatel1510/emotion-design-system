@@ -1,44 +1,114 @@
-.download-button{
-  display:inline-flex;
-  align-items:center;
-  gap:var(--space-3);
-  padding:var(--space-3) var(--space-4);
-  background:var(--color-primary);
-  color:var(--color-surface);
-  border:0;
-  border-radius:var(--radius-md);
-  font-size:var(--font-size-base);
-  font-weight:var(--font-weight-medium);
-  box-shadow:var(--shadow-sm);
-  cursor:pointer;
-  transition:background .12s ease,transform .08s ease;
+.download-button {
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-primary-default);
+  color: var(--color-surface);
+  border: 0;
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  transition: background var(--transition-base), transform var(--transition-slow), box-shadow var(--transition-slow);
 }
-.download-button:focus{
-  outline:2px solid color-mix(in srgb, var(--color-primary) 18%, transparent);
-  outline-offset:2px;
+
+/* shine sweep on hover */
+.download-button::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.25) 50%, transparent 60%);
+  transform: translateX(-100%);
+  transition: transform 0.5s ease;
 }
-.download-button:hover{
-  background:var(--color-primary-700);
-  transform:translateY(-1px);
+.download-button:hover::before { transform: translateX(100%); }
+
+.download-button:focus {
+  outline: 2px solid color-mix(in srgb, var(--color-primary) 18%, transparent);
+  outline-offset: 2px;
 }
-.download-button__icon{display:inline-flex;line-height:0}
-.download-button__label{display:inline-block}
+.download-button:hover {
+  background: var(--color-primary-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+.download-button:active {
+  background: var(--color-primary-active);
+  transform: translateY(0);
+  box-shadow: var(--shadow-sm);
+}
+
+/* state utility classes */
+.download-button.is-disabled,
+.download-button[disabled] {
+  background: var(--color-disabled);
+  color: var(--color-slate-600);
+  cursor: not-allowed;
+  box-shadow: none;
+}
+.download-button.is-loading  { opacity: 0.9; pointer-events: none; }
+.download-button.is-error    { background: var(--color-error); color: var(--color-surface); }
+.download-button.no-hover:hover { transform: none; background: var(--color-primary-default); }
+
+/* Skeleton */
+.download-button__skeleton {
+  display: inline-block;
+  width: 8rem;
+  height: 1.5rem;
+  border-radius: 6px;
+  background: var(--color-slate-200);
+  box-shadow: inset 0 0 0 1px var(--color-slate-200);
+  animation: pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%   { opacity: 1; }
+  50%  { opacity: 0.55; }
+  100% { opacity: 1; }
+}
+
+.download-button.state-disabled { opacity: 0.5; pointer-events: none; box-shadow: none; }
+.download-button.state-error    { box-shadow: 0 1px 0 rgba(0,0,0,0.02); border: 1px solid var(--color-error); }
+.download-button__icon  { display: inline-flex; line-height: 0; transition: transform var(--transition-slow); }
+.download-button:hover .download-button__icon { transform: translateY(-1px); }
+.download-button__label { display: inline-block; }
 
 /* Variants */
-.download-button--primary{background:var(--color-primary);color:var(--color-surface);border:0}
-.download-button--secondary{background:var(--color-surface);color:var(--color-slate-900);border:1px solid var(--color-slate-200)}
-.download-button--ghost{background:transparent;color:var(--color-primary);border:1px solid transparent}
-.download-button--ghost:hover{background:var(--color-primary-50);border-color:var(--color-primary-100)}
+.download-button--primary   { background: var(--color-primary); color: var(--color-surface); border: 0; }
+.download-button--secondary {
+  background: var(--color-surface);
+  color: var(--color-slate-900);
+  border: 1px solid var(--color-slate-200);
+}
+.download-button--secondary:hover {
+  background: var(--color-slate-50);
+  border-color: var(--color-slate-300);
+  box-shadow: var(--shadow-sm);
+}
+.download-button--ghost {
+  background: transparent;
+  color: var(--color-primary);
+  border: 1px solid transparent;
+}
+.download-button--ghost:hover {
+  background: var(--color-primary-50);
+  border-color: var(--color-primary-200);
+  transform: translateY(-2px);
+}
 
 /* Sizes */
-.download-button--size-sm{padding:var(--space-2) var(--space-3);font-size:var(--font-size-sm)}
-.download-button--size-md{padding:var(--space-3) var(--space-4);font-size:var(--font-size-base)}
-.download-button--size-lg{padding:var(--space-4) var(--space-6);font-size:var(--font-size-lg)}
+.download-button--size-sm { padding: var(--space-2) var(--space-3); font-size: var(--font-size-sm); }
+.download-button--size-md { padding: var(--space-3) var(--space-4); font-size: var(--font-size-base); }
+.download-button--size-lg { padding: var(--space-4) var(--space-6); font-size: var(--font-size-lg); }
 
 /* Shapes */
-.download-button--shape-rounded{border-radius:var(--radius-md)}
-.download-button--shape-pill{border-radius:var(--radius-full)}
-.download-button--shape-square{border-radius:0}
+.download-button--shape-rounded { border-radius: var(--radius-md); }
+.download-button--shape-pill    { border-radius: var(--radius-full); }
+.download-button--shape-square  { border-radius: 0; }
 
 /* Demo row helper */
-.download-button-row{display:flex;gap:var(--space-4);align-items:center}
+.download-button-row { display: flex; gap: var(--space-4); align-items: center; flex-wrap: wrap; }

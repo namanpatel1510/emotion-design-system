@@ -216,6 +216,39 @@ export default function Example() {
 
 ---
 
+## Using state utility classes
+
+We expose a small set of utility class names you can apply to components to express common UI states (disabled, loading, error, active). These map to the color tokens in `src/styles/tokens.css`.
+
+Examples (React):
+
+```tsx
+// Disabled button
+<button className="download-button is-disabled" disabled>Download</button>
+
+// Loading state (prevents interaction)
+<button className="download-button is-loading">Saving...</button>
+
+// Error state
+<button className="download-button is-error">Retry</button>
+
+// Active nav action
+<a className="navbar__action is-active" href="#">Dashboard</a>
+
+// Checkbox controlled with disabled
+<label className={`checkbox ${disabled ? 'is-disabled' : ''}`}>
+  <input type="checkbox" className="checkbox__input" disabled={disabled} />
+  <span className="checkbox__control" />
+  <span className="checkbox__label">Accept terms</span>
+</label>
+```
+
+Notes:
+- `is-disabled` and native `disabled` attributes are both supported for accessibility; prefer setting the native attribute when possible.
+- `is-loading` is visual only; also disable pointer events or set `aria-busy` for accessibility when an operation is ongoing.
+- You can extend these utility class names in your components or map them from component props (e.g., `loading ? 'is-loading' : ''`).
+
+
 ## Troubleshooting
 
 - Assets 404 on GitHub Pages: ensure `vite.config.ts` `base` matches the repository path (e.g. `/emotion-design-system/`).

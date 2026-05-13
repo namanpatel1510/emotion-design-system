@@ -8,6 +8,10 @@ interface Props {
   defaultChecked?: boolean
   onChange?: (checked: boolean) => void
   disabled?: boolean
+  loading?: boolean
+  error?: boolean
+  /** Visual state: default | loading | disabled | error */
+  state?: 'default' | 'loading' | 'disabled' | 'error'
   size?: 'sm' | 'md' | 'lg'
 }
 
@@ -18,6 +22,9 @@ const Checkbox: React.FC<Props> = ({
   defaultChecked,
   onChange,
   disabled = false,
+  loading = false,
+  error = false,
+  state = 'default',
   size = 'md',
 }) => {
   const inputId = id ?? `checkbox-${Math.random().toString(36).slice(2, 9)}`
@@ -26,8 +33,16 @@ const Checkbox: React.FC<Props> = ({
     onChange && onChange(e.target.checked)
   }
 
+  // resolve unified state prop (falls back to boolean props)
+  const resolvedState: Props['state'] = state !== 'default' ? state : loading ? 'loading' : disabled ? 'disabled' : error ? 'error' : 'default'
+
+  const stateClasses = [
+    `state-${resolvedState}`,
+    resolvedState !== 'default' ? 'no-hover' : '',
+  ].filter(Boolean)
+
   return (
-    <label className={`checkbox checkbox--size-${size}`} htmlFor={inputId}>
+    <label className={[`checkbox`, `checkbox--size-${size}`, ...stateClasses].join(' ')} htmlFor={inputId}>
       <input
         id={inputId}
         className="checkbox__input"

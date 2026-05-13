@@ -11,9 +11,13 @@ type Column<T> = {
 type Props<T> = {
   columns: Column<T>[]
   data: T[]
+  /** Shows skeleton rows while data is fetching */
+  loading?: boolean
 }
 
-function SortableTable<T extends Record<string, any>>({ columns, data }: Props<T>) {
+const SKELETON_ROWS = 5
+
+function SortableTable<T extends Record<string, any>>({ columns, data, loading = false }: Props<T>) {
   const [sortKey, setSortKey] = useState<string | null>(null)
   const [direction, setDirection] = useState<'asc' | 'desc'>('asc')
 
@@ -26,9 +30,7 @@ function SortableTable<T extends Record<string, any>>({ columns, data }: Props<T
       if (va == null) return 1
       if (vb == null) return -1
       if (typeof va === 'number' && typeof vb === 'number') return direction === 'asc' ? va - vb : vb - va
-      const sa = String(va)
-      const sb = String(vb)
-      return direction === 'asc' ? sa.localeCompare(sb) : sb.localeCompare(sa)
+      return direction === 'asc' ? String(va).localeCompare(String(vb)) : String(vb).localeCompare(String(va))
     })
     return arr
   }, [data, sortKey, direction])
@@ -43,19 +45,36 @@ function SortableTable<T extends Record<string, any>>({ columns, data }: Props<T
     }
   }
 
+  const isEmpty = !loading && data.length === 0
+
   return (
-    <div className="eds-table-wrap">
-      <table className="eds-table">
+    <div className={`eds-table-wrap${loading ? ' eds-table-wrap--loading' : ''}`}>
+      <table className="eds-table" aria-busy={loading ? 'true' : undefined}>
         <thead>
           <tr>
             {columns.map((col) => {
               const key = String(col.key)
               const isSorted = sortKey === key
               return (
-                <th key={key} className={col.sortable ? 'eds-table__th--sortable' : ''}>
-                  <button className="eds-table__th-btn" onClick={() => onSort(col)} aria-sort={isSorted ? (direction === 'asc' ? 'ascending' : 'descending') : 'none'}>
+                <th
+                  key={key}
+                  className={[
+                    col.sortable ? 'eds-table__th--sortable' : '',
+                    isSorted ? 'eds-table__th--active' : '',
+                  ].filter(Boolean).join(' ')}
+                >
+                  <button
+                    className="eds-table__th-btn"
+                    onClick={() => onSort(col)}
+                    aria-sort={isSorted ? (direction === 'asc' ? 'ascending' : 'descending') : 'none'}
+                    disabled={loading}
+                  >
                     <span>{col.label}</span>
-                    {col.sortable && <span className={`eds-table__caret ${isSorted ? 'is-sorted' : ''}`}>{direction === 'asc' ? '▲' : '▼'}</span>}
+                    {col.sortable && (
+                      <span className={`eds-table__caret${isSorted ? ' is-sorted' : ''}`}>
+                        {direction === 'asc' ? '▲' : '▼'}
+                      </span>
+                    )}
                   </button>
                 </th>
               )
@@ -64,7 +83,32 @@ function SortableTable<T extends Record<string, any>>({ columns, data }: Props<T
         </thead>
 
         <tbody>
-          {sorted.map((row, idx) => (
+          {/* ── State: loading — skeleton rows ── */}
+          {loading && Array.from({ length: SKELETON_ROWS }).map((_, idx) => (
+            <tr key={`skel-${idx}`} className={idx % 2 === 0 ? 'eds-table__row--striped' : ''} aria-hidden="true">
+              {columns.map((col) => (
+                <td key={String(col.key)} className="eds-table__td">
+                  <span className="eds-table__skeleton" />
+                </td>
+              ))}
+            </tr>
+          ))}
+
+          {/* ── State: empty ── */}
+          {isEmpty && (
+            <tr>
+              <td className="eds-table__empty" colSpan={columns.length}>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" aria-hidden="true">
+                  <rect x="3" y="3" width="18" height="18" rx="2" />
+                  <path d="M3 9h18M9 21V9" />
+                </svg>
+                <span>No data available</span>
+              </td>
+            </tr>
+          )}
+
+          {/* ── State: default — data rows ── */}
+          {!loading && sorted.map((row, idx) => (
             <tr key={idx} className={idx % 2 === 0 ? 'eds-table__row--striped' : ''}>
               {columns.map((col) => (
                 <td key={String(col.key)} className="eds-table__td">

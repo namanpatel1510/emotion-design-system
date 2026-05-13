@@ -1,11 +1,102 @@
-.eds-table-wrap{width:100%;overflow:auto;border:1px solid var(--color-slate-200);border-radius:var(--radius-md);background:var(--color-surface)}
-.eds-table{width:100%;border-collapse:collapse;font-family:var(--font-family-sans)}
-.eds-table thead tr{background:var(--color-primary-50);color:var(--color-primary-700)}
-.eds-table__th--sortable{padding:var(--space-3)}
-.eds-table__th-btn{display:flex;align-items:center;gap:var(--space-3);width:100%;background:transparent;border:0;padding:var(--space-3);text-align:left;cursor:pointer;color:inherit;font-weight:var(--font-weight-medium)}
-.eds-table__caret{margin-left:auto;opacity:.6;font-size:0.8rem}
-.eds-table__caret.is-sorted{opacity:1}
-.eds-table__td{padding:var(--space-3);border-top:1px solid var(--color-slate-100);color:var(--color-slate-700);font-size:var(--font-size-sm)}
-.eds-table__row--striped{background:var(--color-slate-50)}
-.eds-table__td:first-child{padding-left:var(--space-4)}
-.eds-table__td:last-child{padding-right:var(--space-4)}
+.eds-table-wrap {
+  width: 100%;
+  overflow: auto;
+  border: 1px solid var(--color-slate-200);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow var(--transition-slow);
+  animation: fadeInUp 0.5s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+.eds-table-wrap:hover { box-shadow: var(--shadow-md); }
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.eds-table { width: 100%; border-collapse: collapse; font-family: var(--font-family-sans); }
+.eds-table thead tr {
+  background: var(--color-primary-50);
+  color: var(--color-primary-700);
+}
+
+.eds-table__th--sortable { padding: var(--space-3); }
+.eds-table__th-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+  background: transparent;
+  border: 0;
+  padding: var(--space-3);
+  text-align: left;
+  cursor: pointer;
+  color: inherit;
+  font-weight: var(--font-weight-medium);
+  border-radius: var(--radius-sm);
+  transition: background var(--transition-base), color var(--transition-base);
+}
+.eds-table__th-btn:hover {
+  background: color-mix(in srgb, var(--color-primary-200) 30%, transparent);
+}
+
+.eds-table__caret {
+  margin-left: auto;
+  opacity: 0.4;
+  font-size: 0.8rem;
+  transition: opacity var(--transition-base), transform var(--transition-slow);
+}
+.eds-table__caret.is-sorted { opacity: 1; transform: scale(1.2); }
+
+.eds-table__td {
+  padding: var(--space-3);
+  border-top: 1px solid var(--color-slate-100);
+  color: var(--color-slate-700);
+  font-size: var(--font-size-sm);
+  transition: background var(--transition-fast);
+}
+.eds-table tbody tr {
+  transition: background var(--transition-base), transform var(--transition-fast);
+}
+.eds-table tbody tr:hover td {
+  background: var(--color-primary-50);
+}
+.eds-table__row--striped { background: var(--color-slate-50); }
+.eds-table__td:first-child { padding-left: var(--space-4); }
+.eds-table__td:last-child  { padding-right: var(--space-4); }
+
+/* ── State: sorted column — active header ── */
+.eds-table__th--active { background: color-mix(in srgb, var(--color-primary-100) 60%, transparent); }
+.eds-table__th--active .eds-table__caret { color: var(--color-primary-600); opacity: 1; }
+
+/* ── State: loading — skeleton rows ── */
+@keyframes tbl-shimmer {
+  0%   { background-position: -600px 0; }
+  100% { background-position:  600px 0; }
+}
+.eds-table-wrap--loading { pointer-events: none; }
+.eds-table__skeleton {
+  display: block;
+  height: 0.75rem;
+  border-radius: var(--radius-full);
+  background: linear-gradient(90deg, var(--color-slate-100) 25%, var(--color-slate-200) 50%, var(--color-slate-100) 75%);
+  background-size: 600px 100%;
+  animation: tbl-shimmer 1.4s infinite;
+  width: 70%;
+}
+
+/* ── State: empty ── */
+.eds-table__empty {
+  text-align: center;
+  padding: var(--space-8) var(--space-4);
+  color: var(--color-slate-500);
+  font-size: var(--font-size-sm);
+}
+.eds-table__empty svg {
+  display: block;
+  margin: 0 auto var(--space-3);
+  width: 32px;
+  height: 32px;
+  color: var(--color-slate-300);
+}
