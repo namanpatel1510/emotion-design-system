@@ -29,11 +29,11 @@ function App() {
       <main>
         <h1>Emotion Design System — Demo</h1>
 
-        <div style={{marginBottom: 'var(--space-4)'}}>
+        <div id="search-bar" style={{marginBottom: 'var(--space-4)'}}>
           <SearchBar placeholder="Search reports, users, metrics..." />
         </div>
 
-        <div className="dashboard-main">
+        <div id="dashboard-cards" className="dashboard-main">
           <section className="cards-column">
             <DashboardCard title="Total Earnings" metric="$963,187,118" badge="All time" />
             <DashboardCard title="Active Users" metric="12,482" badge="This week" variant="compact">Monthly growth: 4.2%</DashboardCard>
@@ -41,7 +41,7 @@ function App() {
             <DashboardCard title="Revenue (Preview)" metric="$56,915,421" badge="Live" variant="glass">Tap actions to download or explore</DashboardCard>
           </section>
 
-          <aside className="preferences">
+          <aside id="preferences" className="preferences">
             <h2 className="preferences__title">Preferences</h2>
             <div className="preferences__list">
               <Checkbox label="Email notifications" defaultChecked size="md" />
@@ -56,7 +56,7 @@ function App() {
           </aside>
         </div>
 
-        <section className="download-button-row">
+        <section id="download-button" className="download-button-row">
           <DownloadButton filename="example.pdf" />
           <DownloadButton variant="secondary" size="lg" shape="pill" filename="report.xlsx" />
           <DownloadButton variant="ghost" size="sm" shape="square" filename="notes.txt" />
@@ -70,7 +70,7 @@ function App() {
           </Modal>
         </section>
 
-        <section style={{marginTop: 'var(--space-6)'}}>
+        <section id="line-chart" style={{marginTop: 'var(--space-6)'}}>
           <h2 style={{marginBottom: 'var(--space-3)'}}>Earnings (Last 6 months)</h2>
           <LineChart
             data={[
@@ -84,7 +84,7 @@ function App() {
           />
         </section>
 
-        <section style={{marginTop: 'var(--space-6)'}}>
+        <section id="bar-chart" style={{marginTop: 'var(--space-6)'}}>
           <BarChart
             title="Monthly Growth"
             subtitle="User growth rate by month · 2026"
@@ -99,7 +99,7 @@ function App() {
           />
         </section>
 
-        <section style={{marginTop: 'var(--space-6)'}}>
+        <section id="sortable-table" style={{marginTop: 'var(--space-6)'}}>
           <h2 style={{marginBottom: 'var(--space-3)'}}>Recent Transactions</h2>
           <SortableTable
             columns={[

@@ -1,7 +1,38 @@
-import React from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import './navbar.css'
 
+const COMPONENTS = [
+  { label: 'Search Bar',       id: 'search-bar' },
+  { label: 'Dashboard Cards',  id: 'dashboard-cards' },
+  { label: 'Checkbox',         id: 'preferences' },
+  { label: 'Slider',           id: 'preferences' },
+  { label: 'Download Button',  id: 'download-button' },
+  { label: 'Modal',            id: 'download-button' },
+  { label: 'Line Chart',       id: 'line-chart' },
+  { label: 'Bar Chart',        id: 'bar-chart' },
+  { label: 'Sortable Table',   id: 'sortable-table' },
+]
+
 const Navbar: React.FC = () => {
+  const [open, setOpen] = useState(false)
+  const dropdownRef = useRef<HTMLLIElement>(null)
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
+
+  const scrollTo = (id: string) => {
+    setOpen(false)
+    const el = document.getElementById(id)
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
+
   return (
     <nav className="navbar" role="navigation" aria-label="Main navigation">
       <div className="navbar__brand">Emotion</div>
@@ -10,6 +41,32 @@ const Navbar: React.FC = () => {
         <li className="navbar__item"><a className="navbar__link" href="#">Dashboard</a></li>
         <li className="navbar__item"><a className="navbar__link" href="#">Reports</a></li>
         <li className="navbar__item"><a className="navbar__link" href="#">Settings</a></li>
+
+        <li className="navbar__item navbar__dropdown-wrapper" ref={dropdownRef}>
+          <button
+            className={`navbar__link navbar__dropdown-trigger${open ? ' is-open' : ''}`}
+            onClick={() => setOpen(prev => !prev)}
+            aria-haspopup="listbox"
+            aria-expanded={open}
+          >
+            Components
+            <svg className="navbar__chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+              <path d="M2 4l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </button>
+
+          {open && (
+            <ul className="navbar__dropdown" role="listbox">
+              {COMPONENTS.map((c) => (
+                <li key={c.label} role="option">
+                  <button className="navbar__dropdown-item" onClick={() => scrollTo(c.id)}>
+                    {c.label}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
+        </li>
       </ul>
 
       <div className="navbar__actions">
