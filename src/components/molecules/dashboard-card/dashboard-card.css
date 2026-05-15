@@ -1,11 +1,29 @@
 /* Base layout — colour/radius/shadow live in tokens.css */
 .dashboard-card {
-  transition: transform var(--transition-slow), box-shadow var(--transition-slow);
+  transition: transform var(--transition-slow), box-shadow var(--transition-slow),
+              outline-color var(--transition-base);
   animation: fadeInUp 0.45s cubic-bezier(0.4, 0, 0.2, 1) both;
+  outline: 2px solid transparent;
+  outline-offset: 2px;
 }
 .dashboard-card:hover {
   transform: translateY(-5px);
   box-shadow: var(--shadow-lg);
+}
+
+/* Clickable variant */
+.dashboard-card--clickable {
+  cursor: pointer;
+  user-select: none;
+}
+.dashboard-card--clickable:hover {
+  outline-color: var(--color-primary-300);
+}
+.dashboard-card--clickable:focus-visible {
+  outline-color: var(--color-primary-500);
+}
+.dashboard-card--clickable:active {
+  transform: translateY(-2px) scale(0.99);
 }
 
 @keyframes fadeInUp {

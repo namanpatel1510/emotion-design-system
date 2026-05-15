@@ -144,3 +144,46 @@
 /* ── Shared button states ── */
 .eds-modal__close:disabled     { opacity: 0.4; cursor: not-allowed; }
 .eds-modal__btn--secondary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* ── Card detail popup ── */
+.card-modal__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+.card-modal__stat {
+  background: var(--color-slate-50);
+  border: 1px solid var(--color-slate-200);
+  border-radius: var(--radius-lg);
+  padding: var(--space-3) var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+.card-modal__stat-label {
+  font-size: var(--font-size-xs);
+  color: var(--color-slate-500);
+  font-weight: var(--font-weight-medium);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.card-modal__stat-value {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-slate-900);
+}
+.card-modal__stat-value--up   { color: var(--color-accent-600); }
+.card-modal__stat-value--down { color: var(--color-danger); }
+.card-modal__note {
+  font-size: var(--font-size-xs);
+  color: var(--color-slate-500);
+  border-top: 1px solid var(--color-slate-100);
+  padding-top: var(--space-3);
+  line-height: 1.5;
+}
+
+[data-theme="dark"] .card-modal__stat {
+  background: var(--color-slate-100);
+  border-color: var(--color-slate-200);
+}

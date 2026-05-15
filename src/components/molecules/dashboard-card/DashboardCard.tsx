@@ -9,6 +9,7 @@ interface Props {
   /** Visual state: default | loading | error */
   state?: 'default' | 'loading' | 'error'
   children?: React.ReactNode
+  onClick?: () => void
 }
 
 const DashboardCard: React.FC<Props> = ({
@@ -18,6 +19,7 @@ const DashboardCard: React.FC<Props> = ({
   variant = 'default',
   state = 'default',
   children,
+  onClick,
 }) => {
   const titleId = `dashboard-card-title-${title.replace(/\s+/g, '-').toLowerCase()}`
 
@@ -25,6 +27,7 @@ const DashboardCard: React.FC<Props> = ({
     'dashboard-card',
     `dashboard-card--${variant}`,
     state !== 'default' ? `dashboard-card--${state}` : '',
+    onClick ? 'dashboard-card--clickable' : '',
   ].filter(Boolean).join(' ')
 
   return (
@@ -32,6 +35,10 @@ const DashboardCard: React.FC<Props> = ({
       className={classes}
       aria-labelledby={titleId}
       aria-busy={state === 'loading' ? 'true' : undefined}
+      onClick={onClick}
+      role={onClick ? 'button' : undefined}
+      tabIndex={onClick ? 0 : undefined}
+      onKeyDown={onClick ? (e) => { if (e.key === 'Enter' || e.key === ' ') onClick() } : undefined}
     >
       <header className="dashboard-card__header">
         <h3 id={titleId} className="dashboard-card__title">{title}</h3>
