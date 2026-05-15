@@ -7,12 +7,21 @@ interface Props {
   variant?: 'primary' | 'secondary' | 'ghost'
   size?: 'sm' | 'md' | 'lg'
   shape?: 'rounded' | 'pill' | 'square'
-  /** Visual state: default | loading | disabled | error */
   state?: 'default' | 'loading' | 'disabled' | 'error'
-  /** Backwards-compatible boolean props (optional) */
   disabled?: boolean
   loading?: boolean
   error?: boolean
+}
+
+const EXT_CLASS: Record<string, string> = {
+  pdf:  'ext--pdf',
+  xlsx: 'ext--xlsx',
+  xls:  'ext--xlsx',
+  csv:  'ext--csv',
+  doc:  'ext--doc',
+  docx: 'ext--doc',
+  txt:  'ext--txt',
+  zip:  'ext--zip',
 }
 
 const DownloadButton: React.FC<Props> = ({
@@ -26,9 +35,12 @@ const DownloadButton: React.FC<Props> = ({
   loading = false,
   error = false,
 }) => {
-  // prefer explicit `state` prop, fall back to boolean props for compatibility
   const resolvedState: Props['state'] =
     state !== 'default' ? state : loading ? 'loading' : disabled ? 'disabled' : error ? 'error' : 'default'
+
+  const ext = filename.includes('.') ? filename.split('.').pop()!.toLowerCase() : 'file'
+  const extLabel = ext.toUpperCase()
+  const extClass = EXT_CLASS[ext] || 'ext--default'
 
   const handleClick = () => {
     if (resolvedState === 'disabled' || resolvedState === 'loading') return
@@ -36,12 +48,11 @@ const DownloadButton: React.FC<Props> = ({
   }
 
   const className = [
-    'download-button',
-    `download-button--${variant}`,
-    `download-button--size-${size}`,
-    `download-button--shape-${shape}`,
-    `state-${resolvedState}`,
-    resolvedState !== 'default' ? 'no-hover' : '',
+    'dl-btn',
+    `dl-btn--${variant}`,
+    `dl-btn--${size}`,
+    `dl-btn--${shape}`,
+    resolvedState !== 'default' ? `dl-btn--${resolvedState}` : '',
   ]
     .filter(Boolean)
     .join(' ')
@@ -56,16 +67,21 @@ const DownloadButton: React.FC<Props> = ({
       aria-busy={resolvedState === 'loading' ? 'true' : undefined}
     >
       {resolvedState === 'loading' ? (
-        <span className="download-button__skeleton" aria-hidden="true" />
+        <span className="dl-btn__skeleton" aria-hidden="true" />
       ) : (
         <>
-          <span className="download-button__icon" aria-hidden="true">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <path d="M12 3v12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M19 14l-7 7-7-7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          <span className="dl-btn__icon" aria-hidden="true">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 3v13" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"/>
+              <path d="M7 11l5 5 5-5" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M4 20h16" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"/>
             </svg>
           </span>
-          <span className="download-button__label">Download</span>
+          <span className="dl-btn__info">
+            <span className="dl-btn__label">Download</span>
+            <span className="dl-btn__filename">{filename}</span>
+          </span>
+          <span className={`dl-btn__ext ${extClass}`} aria-hidden="true">{extLabel}</span>
         </>
       )}
     </button>

@@ -82,7 +82,7 @@ main > h1 {
 main > section h2 {
   font-size: 1.25rem;
   font-weight: 700;
-  color: #0f172a;
+  color: var(--color-slate-900);
   letter-spacing: -0.02em;
   display: flex;
   align-items: center;

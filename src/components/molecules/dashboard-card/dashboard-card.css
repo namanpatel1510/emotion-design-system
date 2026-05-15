@@ -129,3 +129,14 @@
   background: rgba(255, 255, 255, 0.78);
   box-shadow: 0 20px 48px rgba(99, 102, 241, 0.12);
 }
+
+[data-theme="dark"] .dashboard-card--glass {
+  background: rgba(30, 41, 59, 0.6);
+  border-color: rgba(51, 65, 85, 0.5);
+}
+[data-theme="dark"] .dashboard-card--glass:hover {
+  background: rgba(30, 41, 59, 0.85);
+}
+[data-theme="dark"] .dashboard-card__badge--error {
+  background: rgba(239, 68, 68, 0.15);
+}

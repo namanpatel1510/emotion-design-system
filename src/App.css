@@ -114,6 +114,11 @@
   .preferences { width: 100%; max-width: none; }
 }
 
+[data-theme="dark"] .preferences {
+  background: var(--color-surface);
+  border-color: var(--color-slate-200);
+}
+
 #next-steps {
   display: flex;
   border-top: 1px solid var(--border);
