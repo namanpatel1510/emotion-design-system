@@ -1,22 +1,20 @@
 import React, { useState, useRef, useEffect } from 'react'
+import { NavLink, useNavigate } from 'react-router-dom'
 import './navbar.css'
 
 const COMPONENTS = [
-  { label: 'Search Bar',       id: 'search-bar' },
-  { label: 'Dashboard Cards',  id: 'dashboard-cards' },
-  { label: 'Checkbox',         id: 'preferences' },
-  { label: 'Slider',           id: 'preferences' },
-  { label: 'Download Button',  id: 'download-button' },
-  { label: 'Modal',            id: 'download-button' },
-  { label: 'Line Chart',       id: 'line-chart' },
-  { label: 'Bar Chart',        id: 'bar-chart' },
-  { label: 'Sortable Table',   id: 'sortable-table' },
+  { label: 'Search Bar',      id: 'search-bar'   },
+  { label: 'Download Button', id: 'download-button' },
+  { label: 'Checkbox',        id: 'checkbox'     },
+  { label: 'Slider',          id: 'slider'       },
+  { label: 'Modal',           id: 'modal'        },
 ]
 
 const Navbar: React.FC = () => {
   const [open, setOpen] = useState(false)
   const [dark, setDark] = useState(() => localStorage.getItem('theme') === 'dark')
   const dropdownRef = useRef<HTMLLIElement>(null)
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (dark) {
@@ -38,20 +36,32 @@ const Navbar: React.FC = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
 
-  const scrollTo = (id: string) => {
+  const goToComponent = (id: string) => {
     setOpen(false)
-    const el = document.getElementById(id)
-    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    navigate('/components')
+    setTimeout(() => {
+      const el = document.getElementById(id)
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }, 80)
   }
+
+  const navClass = ({ isActive }: { isActive: boolean }) =>
+    `navbar__link${isActive ? ' is-active' : ''}`
 
   return (
     <nav className="navbar" role="navigation" aria-label="Main navigation">
-      <div className="navbar__brand">Emotion</div>
+      <NavLink to="/" className="navbar__brand">Emotion</NavLink>
 
       <ul className="navbar__nav">
-        <li className="navbar__item"><a className="navbar__link" href="#">Dashboard</a></li>
-        <li className="navbar__item"><a className="navbar__link" href="#">Reports</a></li>
-        <li className="navbar__item"><a className="navbar__link" href="#">Settings</a></li>
+        <li className="navbar__item">
+          <NavLink to="/" end className={navClass}>Docs</NavLink>
+        </li>
+        <li className="navbar__item">
+          <NavLink to="/releases" className={navClass}>Releases</NavLink>
+        </li>
+        <li className="navbar__item">
+          <NavLink to="/settings" className={navClass}>Settings</NavLink>
+        </li>
 
         <li className="navbar__item navbar__dropdown-wrapper" ref={dropdownRef}>
           <button
@@ -70,7 +80,7 @@ const Navbar: React.FC = () => {
             <ul className="navbar__dropdown" role="listbox">
               {COMPONENTS.map((c) => (
                 <li key={c.label} role="option">
-                  <button className="navbar__dropdown-item" onClick={() => scrollTo(c.id)}>
+                  <button className="navbar__dropdown-item" onClick={() => goToComponent(c.id)}>
                     {c.label}
                   </button>
                 </li>
@@ -81,7 +91,7 @@ const Navbar: React.FC = () => {
       </ul>
 
       <div className="navbar__actions">
-        <a className="navbar__action" href="#">Help</a>
+        <a className="navbar__action" href="https://github.com/namanpatel1510/emotion-design-system" target="_blank" rel="noreferrer">GitHub</a>
         <button
           className="navbar__theme-toggle"
           onClick={() => setDark(prev => !prev)}

@@ -23,9 +23,17 @@
   -webkit-text-fill-color: transparent;
   background-clip: text;
   letter-spacing: -0.02em;
+  text-decoration: none;
   transition: opacity var(--transition-base);
 }
 .navbar__brand:hover { opacity: 0.8; }
+
+/* Active nav link */
+.navbar__link.is-active {
+  color: var(--color-primary-600);
+  background: var(--color-primary-50);
+}
+.navbar__link.is-active::after { transform: scaleX(1); }
 
 .navbar__nav {
   display: flex;
